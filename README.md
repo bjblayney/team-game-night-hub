@@ -33,30 +33,40 @@ Team Game Night Hub is a web app designed to make virtual team bonding easy and 
 
 **Pro tip:** Go full screen for the best presentation experience!
 
+## Live Demo
+
+Visit the live app: **https://bjblayney.github.io/team-game-night-hub/**
+
+On first visit, you'll be prompted to configure your Gemini API key (free from [Google AI Studio](https://aistudio.google.com/apikey)) or skip to use offline mode with fallback prompts.
+
 ## Run Locally
 
 **Prerequisites:** Node.js 18+
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+npm run dev
+```
 
-2. Create a `.env.local` file and add your Gemini API key:
-   ```
-   GEMINI_API_KEY=your_api_key_here
-   ```
+Open [http://localhost:3000](http://localhost:3000) in your browser. The app will prompt you to configure your API key on first load.
 
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+## API Configuration
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+The app stores your Gemini API key locally in your browser (never sent to any server). On first launch:
+
+1. Enter your free API key from [Google AI Studio](https://aistudio.google.com/apikey)
+2. Select a model (recommended: `gemini-2.5-flash`)
+3. Or click "Skip" to use offline mode with fallback prompts
+
+**Free tier models:**
+- `gemini-2.5-flash` - Best balance of speed and quality
+- `gemini-2.5-flash-lite` - Fastest, highest daily quota (1000 requests/day)
+- `gemini-2.5-pro` - Best quality, lower quota
 
 ## Admin Settings
 
 Visit the Admin page to:
 - View all built-in games and their prompt counts
 - Add, edit, or remove external game links
+- Configure or update your Gemini API key and model
 - All changes are saved to your browser's local storage

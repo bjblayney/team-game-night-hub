@@ -11,18 +11,23 @@ npm run build        # Build for production
 npm run preview      # Preview production build
 ```
 
-## Environment Setup
-
-Set `GEMINI_API_KEY` in `.env.local` for AI-generated game prompts. The key is accessed via `process.env.API_KEY` in the Gemini service.
-
 ## Architecture Overview
 
-This is a React + TypeScript team game night application built with Vite. It uses Google's Gemini AI to dynamically generate game prompts.
+This is a React + TypeScript team game night application built with Vite. It uses Google's Gemini AI to dynamically generate game prompts. Deployed to GitHub Pages.
+
+### API Configuration
+
+The app uses browser-based API configuration (no `.env` files needed):
+- On first load, `SetupModal` prompts for Gemini API key and model selection
+- Config stored in `localStorage` under key `gemini-api-config`
+- Users can skip setup to use offline mode with fallback prompts from `constants.tsx`
+- API settings can be updated anytime via Admin > API Settings tab
 
 ### Core Data Flow
 
 - `App.tsx` is the entry point and manages global state via `useState`, persisted to `localStorage`
-- On mount, the app auto-refreshes all built-in game prompts via Gemini AI
+- On first load, shows `SetupModal` if API not yet configured
+- On mount (after setup), auto-refreshes all built-in game prompts via Gemini AI if API key is configured
 - State flows down through props to pages; updates flow up via `onUpdate` callback to Admin
 
 ### Routing Structure (HashRouter)
@@ -42,9 +47,24 @@ This is a React + TypeScript team game night application built with Vite. It use
 ### Key Files
 
 - `constants.tsx` - Initial game data and prompt content (fallback when AI unavailable)
-- `services/geminiService.ts` - Gemini API integration with structured JSON schema output
+- `services/geminiService.ts` - Gemini API integration with structured JSON schema output; reads config from localStorage
 - `components/Layout.tsx` - Shared navigation header and footer
+- `components/SetupModal.tsx` - First-load API configuration modal; exports `getApiConfig`, `saveApiConfig`, `clearApiConfig`
+
+### Deployment
+
+- Deployed to GitHub Pages via `.github/workflows/deploy.yml`
+- Base path configured in `vite.config.ts` as `/team-game-night-hub/`
+- Auto-deploys on push to `main` branch
+- Live URL: https://bjblayney.github.io/team-game-night-hub/
 
 ### Styling
 
 Uses Tailwind CSS classes directly in components. No separate CSS files.
+
+### Free Tier Gemini Models
+
+Recommended models for free tier users:
+- `gemini-2.5-flash` - Best balance (default)
+- `gemini-2.5-flash-lite` - Fastest, 1000 requests/day
+- `gemini-2.5-pro` - Best quality, lower limits
